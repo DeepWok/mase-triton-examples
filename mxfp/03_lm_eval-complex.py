@@ -100,14 +100,17 @@ class LlamaAttentionMXFP(LlamaAttention):
             cache_kwargs = {"sin": sin, "cos": cos, "cache_position": cache_position}
             # *: quantize KV cache if meta is not None
             if self.kv_cache_meta is not None:
-                key_states = MXFP_F.quantize_dequantize(
+                _key_states = MXFP_F.quantize_dequantize(
                     key_states, block_dim=-1, mxfp_meta=self.kv_cache_meta
                 )
-                value_states = MXFP_F.quantize_dequantize(
+                _value_states = MXFP_F.quantize_dequantize(
                     value_states, block_dim=-1, mxfp_meta=self.kv_cache_meta
                 )
+            else:
+                _key_states = key_states
+                _value_states = value_states
             key_states, value_states = past_key_value.update(
-                key_states, value_states, self.layer_idx, cache_kwargs
+                _key_states, _value_states, self.layer_idx, cache_kwargs
             )
 
         attention_interface: callable = eager_attention_forward_mxfp
@@ -324,7 +327,9 @@ def mxfp_lm_eval(
         Literal["MXFP8_E4M3", "MXFP8_E5M2", "MXFP6_E2M3", "MXFP6_E3M2", "MXFP4_E2M1"],
         None,
     ] = None,
-    preset: Union[Literal["XqWqKVq", "XWqKV", "XWKVq", "original"], None] = "XqWqKVq",
+    preset: Union[
+        Literal["XqWqKVq", "XWqKV", "XWqKVq", "XWKVq", "original"], None
+    ] = "XqWqKVq",
     preset_dtype: Literal[
         "MXFP8_E4M3", "MXFP8_E5M2", "MXFP6_E2M3", "MXFP6_E3M2", "MXFP4_E2M1"
     ] = "MXFP8_E4M3",
