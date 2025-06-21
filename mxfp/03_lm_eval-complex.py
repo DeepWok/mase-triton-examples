@@ -1,5 +1,25 @@
+"""
+This script shows a more complex example of how to quantize the linear layers, attention matmuls (QK^T and AV), and KV cache of Llama models using MXFP quantization,
+and evaluate the quantized model using lm-eval on various tasks.
+
+Usage:
+    python mxfp/03_lm_eval_ppl-complex.py --help
+
+Example:
+    # Note that the default model is unsloth/Llama-3.2-1B. Change it to your model of choice using --model_name <MODEL_NAME>
+
+    # Using preset to quantize the model linear weights, attention activations, and KV cache
+    python mxfp/03_lm_eval_ppl-complex.py --preset XqWqKVq --preset_dtype MXFP8_E4M3
+    # Weight-only quantization of the model linear weights
+    python mxfp/03_lm_eval_ppl-complex.py --preset XWqKV --preset_dtype MXFP8_E4M3
+    # Original model without quantization
+    python mxfp/03_lm_eval_ppl-complex.py --preset original
+    # Only quantize the KV cache
+    python mxfp/03_lm_eval_ppl-complex.py --preset null --kv_cache_meta MXFP8_E4M3
+"""
+
 from pprint import pformat
-from typing import Any, Dict, Literal, Optional, Tuple, Union
+from typing import Literal, Optional, Tuple, Union
 
 import torch
 from lm_eval.evaluator import simple_evaluate

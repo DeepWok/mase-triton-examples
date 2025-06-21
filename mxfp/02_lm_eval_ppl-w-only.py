@@ -1,6 +1,13 @@
 """
 This script shows how to replace the linear layers of a Hugging Face model with MXFPLinearPTQ layers,
 and evaluate the model's perplexity on the Wikitext dataset using lm-eval.
+
+Usage:
+    python mxfp/02_lm_eval_ppl-w-only.py --model_name <model_name> --w_meta <MXFPMeta>
+    where <model_name> is the name of the Hugging Face model and <MXFPMeta> is one of the presets or None.
+
+Example:
+    python mxfp/02_lm_eval_ppl-w-only.py --model_name "unsloth/Llama-3.2-1B" --w_meta "MXFP8_E4M3"
 """
 
 from typing import Literal, Union
