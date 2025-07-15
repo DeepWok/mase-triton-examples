@@ -91,12 +91,13 @@ def eval_wikitext_ppl(
     # create the tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16)
+    model = model.to(device)
+    model = model.eval()
     # replace the linear layers with MXFPLinearPTQ layers, except for the lm_head
     if w_meta is not None:
         model = replace_fc(model, fc_kwargs=q_config, skip_layers=["lm_head"])
     else:
         print("Skipping quantization, using original model weights.")
-    model = model.to(device)
     # wrap the model with lm-eval's HFLM
     model_lm_eval = HFLM(pretrained=model, tokenizer=tokenizer, max_length=2048)
     # pass the wrapped model to the lm-eval's evaluator

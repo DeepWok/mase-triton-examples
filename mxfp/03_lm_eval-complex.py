@@ -163,6 +163,7 @@ class LlamaAttentionMXFP(LlamaAttention):
             kv_cache_meta=kv_cache_meta,
         )
         new_attn.to(attention.q_proj.weight.dtype)
+        new_attn.to(attention.q_proj.weight.device)
         # load q/k/v/o projections
         # this assumes that the projections are not quantized yet
         new_attn.load_state_dict(attention.state_dict(), strict=True)
@@ -469,10 +470,11 @@ def mxfp_lm_eval(
     model = AutoModelForCausalLM.from_pretrained(
         model_name, torch_dtype=torch.bfloat16, attn_implementation="eager"
     )
+    model = model.to(device)
+    model = model.eval()
     replace_attn(model, attn_kwargs=attn_kwargs)
     replace_fc(model, fc_kwargs=fc_kwargs, skip_layers=["lm_head"])
 
-    model = model.to(device)
     # wrap the model with lm-eval's HFLM
     model_lm_eval = HFLM(pretrained=model, tokenizer=tokenizer, max_length=2048)
     # pass the wrapped model to the lm-eval's evaluator
