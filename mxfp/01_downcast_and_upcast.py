@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "jsonargparse[all]",
+#     "lm-eval",
+#     "mase-triton>=0.0.5",
+#     "transformers==4.52.4",
+# ]
+# ///
 """
 This script demonstrates how to downcast/quantize a BF16 tensor to MXFP, and upcast it back to BF16.
 """

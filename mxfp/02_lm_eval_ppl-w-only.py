@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "jsonargparse[all]",
+#     "lm-eval",
+#     "mase-triton>=0.0.5",
+#     "transformers==4.52.4",
+# ]
+# ///
 """
 This script shows how to replace the linear layers of a Hugging Face model with MXFPLinearPTQ layers,
 and evaluate the model's perplexity on the Wikitext dataset using lm-eval.

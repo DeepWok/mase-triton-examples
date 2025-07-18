@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "jsonargparse[all]",
+#     "lm-eval",
+#     "mase-triton>=0.0.5",
+#     "transformers==4.52.4",
+# ]
+# ///
 """
 This script shows a more complex example of how to quantize the linear layers, attention matmuls (QK^T and AV), and KV cache of Llama models using MXFP quantization,
 and evaluate the quantized model using lm-eval on various tasks.
