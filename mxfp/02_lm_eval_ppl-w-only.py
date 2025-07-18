@@ -21,8 +21,8 @@ from mase_triton.mxfp.meta import (
     OCP_MXFP4_E2M1,
     OCP_MXFP6_E2M3,
     OCP_MXFP6_E3M2,
-    OCP_MXFP8_E4M3,
-    OCP_MXFP8_E5M2,
+    MXFP8_E4M3_fn,
+    MXFP8_E5M2_fn,
     MXFPMeta,
 )
 from mase_triton.utils.torch_module import set_layer_by_name
@@ -49,8 +49,8 @@ def replace_fc(model: torch.nn.Module, fc_kwargs: dict, skip_layers: list[str] =
 
 
 PRESET_MAP = {
-    "MXFP8_E4M3": OCP_MXFP8_E4M3,
-    "MXFP8_E5M2": OCP_MXFP8_E5M2,
+    "MXFP8_E4M3": MXFP8_E4M3_fn,
+    "MXFP8_E5M2": MXFP8_E5M2_fn,
     "MXFP6_E2M3": OCP_MXFP6_E2M3,
     "MXFP6_E3M2": OCP_MXFP6_E3M2,
     "MXFP4_E2M1": OCP_MXFP4_E2M1,

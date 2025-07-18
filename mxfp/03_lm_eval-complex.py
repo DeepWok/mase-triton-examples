@@ -3,19 +3,19 @@ This script shows a more complex example of how to quantize the linear layers, a
 and evaluate the quantized model using lm-eval on various tasks.
 
 Usage:
-    python mxfp/03_lm_eval_ppl-complex.py --help
+    python mxfp/03_lm_eval-complex.py --help
 
 Example:
     # Note that the default model is unsloth/Llama-3.2-1B. Change it to your model of choice using --model_name <MODEL_NAME>
 
     # Using preset to quantize the model linear weights, attention activations, and KV cache
-    python mxfp/03_lm_eval_ppl-complex.py --preset XqWqKVq --preset_dtype MXFP8_E4M3
+    python mxfp/03_lm_eval-complex.py --preset XqWqKVq --preset_dtype MXFP8_E4M3
     # Weight-only quantization of the model linear weights
-    python mxfp/03_lm_eval_ppl-complex.py --preset XWqKV --preset_dtype MXFP8_E4M3
+    python mxfp/03_lm_eval-complex.py --preset XWqKV --preset_dtype MXFP8_E4M3
     # Original model without quantization
-    python mxfp/03_lm_eval_ppl-complex.py --preset original
+    python mxfp/03_lm_eval-complex.py --preset original
     # Only quantize the KV cache
-    python mxfp/03_lm_eval_ppl-complex.py --preset null --kv_cache_meta MXFP8_E4M3
+    python mxfp/03_lm_eval-complex.py --preset null --kv_cache_meta MXFP8_E4M3
 """
 
 from pprint import pformat
@@ -31,8 +31,8 @@ from mase_triton.mxfp.meta import (
     OCP_MXFP4_E2M1,
     OCP_MXFP6_E2M3,
     OCP_MXFP6_E3M2,
-    OCP_MXFP8_E4M3,
-    OCP_MXFP8_E5M2,
+    MXFP8_E4M3_fn,
+    MXFP8_E5M2_fn,
     MXFPMeta,
 )
 from mase_triton.utils.torch_module import set_layer_by_name
@@ -263,8 +263,8 @@ def replace_fc(model: torch.nn.Module, fc_kwargs: dict, skip_layers: list[str] =
 
 
 PRESET_META_MAP = {
-    "MXFP8_E4M3": OCP_MXFP8_E4M3,
-    "MXFP8_E5M2": OCP_MXFP8_E5M2,
+    "MXFP8_E4M3": MXFP8_E4M3_fn,
+    "MXFP8_E5M2": MXFP8_E5M2_fn,
     "MXFP6_E2M3": OCP_MXFP6_E2M3,
     "MXFP6_E3M2": OCP_MXFP6_E3M2,
     "MXFP4_E2M1": OCP_MXFP4_E2M1,

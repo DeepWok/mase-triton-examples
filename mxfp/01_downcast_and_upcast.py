@@ -8,8 +8,8 @@ from mase_triton.mxfp.meta import (
     OCP_MXFP4_E2M1,
     OCP_MXFP6_E2M3,
     OCP_MXFP6_E3M2,
-    OCP_MXFP8_E4M3,
-    OCP_MXFP8_E5M2,
+    MXFP8_E4M3_fn,
+    MXFP8_E5M2_fn,
     MXFPMeta,
 )
 from mase_triton.utils.bit_repr import get_binary_repr, get_binary_repr_bf16
@@ -62,7 +62,7 @@ def quantize():
 
 def quantize_and_dequantize():
     torch.set_printoptions(linewidth=200)
-    mxfp_format = OCP_MXFP8_E5M2
+    mxfp_format = MXFP8_E5M2_fn
 
     w = torch.randn((3, 64), dtype=torch.bfloat16, device="cuda") * 100.0
     scales, elements, tensor_meta = extract_mxfp_components(
