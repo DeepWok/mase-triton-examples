@@ -3,7 +3,7 @@
 # dependencies = [
 #     "jsonargparse[all]",
 #     "lm-eval",
-#     "mase-triton>=0.0.5",
+#     "mase-triton>=0.0.1",
 #     "transformers==4.52.4",
 # ]
 # ///
@@ -35,6 +35,8 @@ def quantize():
         scale_exp_bits=8,  # the bit width of the shared exponent
         element_exp_bits=4,  # the bit width of the element (MiniFloat) exponent
         element_frac_bits=3,  # the bit width of the element (MiniFloat) fraction
+        element_is_finite=True, # saturation instead of Inf/NaN
+        round_mode="rn", # round to nearest even
     )
 
     w = torch.randn((3, 2), dtype=torch.bfloat16, device="cuda") * 100.0

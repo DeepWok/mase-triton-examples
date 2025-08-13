@@ -3,7 +3,7 @@
 # dependencies = [
 #     "jsonargparse[all]",
 #     "lm-eval",
-#     "mase-triton>=0.0.5",
+#     "mase-triton>=0.0.6",
 #     "transformers==4.52.4",
 # ]
 # ///
